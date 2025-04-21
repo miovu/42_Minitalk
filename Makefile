@@ -3,11 +3,9 @@ NAME = minitalk
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -g
 
-SOURCES_FILES = 
-				
-SRC = $(addprefix $(SRC_DIR)/, $(SOURCES_FILES))
+FILES = bah.c	
 
-OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(SOURCES_FILES:.c=.o))
+OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(FILES:.c=.o))
 OBJECTS_DIR = objects
 SRC_DIR = srcs
 
@@ -21,7 +19,7 @@ $(NAME): $(LIBFT) $(OBJECTS)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -o $(NAME)
 	@echo "Ready!"
 
-$(OBJECTS_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJECTS_DIR)
+$(OBJECTS_DIR)/%.o: $(FILES)/%.c | $(OBJECTS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
