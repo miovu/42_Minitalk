@@ -6,7 +6,7 @@
 /*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:04:36 by miovu             #+#    #+#             */
-/*   Updated: 2025/04/16 16:06:32 by miovu            ###   ########.fr       */
+/*   Updated: 2025/04/21 19:24:01 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
-
+#include "includes/libft/libft.h"
 
 #endif

@@ -1,41 +1,48 @@
-NAME = minitalk
+CLIENT = client
+SERVER = server
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -g
 
-FILES = bah.c	
+CLIENT_SRC = client.c
+SERVER_SRC = server.c
 
-OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(FILES:.c=.o))
 OBJECTS_DIR = objects
-SRC_DIR = srcs
+CLIENT_OBJ = $(OBJECTS_DIR)/client.o
+SERVER_OBJ = $(OBJECTS_DIR)/server.o
 
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DIR = ./includes/libft
 
-all: $(NAME)
+all: $(CLIENT) $(SERVER)
 
-$(NAME): $(LIBFT) $(OBJECTS) 
-	@echo "Building..."
-	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -o $(NAME)
-	@echo "Ready!"
+$(CLIENT): $(CLIENT_OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $@ $^
+	@echo "Built client ✅"
 
-$(OBJECTS_DIR)/%.o: $(FILES)/%.c | $(OBJECTS_DIR)
+$(SERVER): $(SERVER_OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $@ $^
+	@echo "Built server ✅"
+
+$(OBJECTS_DIR)/%.o: %.c | $(OBJECTS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(LIBFT):
-	@make -C $(LIBFT_DIR) bonus -s --no-print-directory
+	@echo "🛠️ Compiling"
 
 $(OBJECTS_DIR):
 	@mkdir -p $(OBJECTS_DIR)
 
+$(LIBFT):
+	@make -C $(LIBFT_DIR) bonus -s --no-print-directory
+
 clean:
 	@rm -rf $(OBJECTS_DIR)
 	@make -C $(LIBFT_DIR) clean -s
-	@echo "Cleaned!"
+	@echo "Cleaned object files 🧽"
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean -s --no-print-directory
-	@rm -rf $(NAME)
+	@rm -rf $(CLIENT) $(SERVER)
+	@echo "Fully cleaned! 🧼"
 
 re: fclean all
 	@echo "Rebuilt!"
