@@ -1,33 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 14:48:04 by miovu             #+#    #+#             */
+/*   Updated: 2025/04/22 14:54:03 by miovu            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-void    handle_bit(int signal, siginfo_t *info, void *context)
+void	handle_bit(int signal, siginfo_t *info, void *context)
 {
-    static unsigned char c = 0;
-    static unsigned int count = 0;
+	static unsigned char	c = 0;
+	static unsigned int		count = 0;
 
 	(void)context;
-    c <<= 1;
-    if (signal == SIGUSR2)
-        c |= 1;
-    count++;
-    if (count == 8)
-    {
-        if (c == 0)
-        {
+	c <<= 1;
+	if (signal == SIGUSR2)
+		c |= 1;
+	count++;
+	if (count == 8)
+	{
+		if (c == 0)
+		{
 			write(1, "\n", 1);
 			kill(info->si_pid, SIGUSR1);
 		}
-        else
-            write(1, &c, 1);
-        c = 0;
-        count = 0;
-    }
+		else
+			write(1, &c, 1);
+		c = 0;
+		count = 0;
+	}
 	kill(info->si_pid, SIGUSR2);
 }
 
-int main()
+int	main(void)
 {
-	struct	sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_sigaction = handle_bit;
 	sa.sa_flags = SA_SIGINFO;
